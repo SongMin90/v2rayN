@@ -544,6 +544,9 @@
   <data name="menuAddVmessServer" xml:space="preserve">
     <value>سرور [VMess] را اضافه کنید</value>
   </data>
+  <data name="menuAddGoflywayServer" xml:space="preserve">
+    <value>سرور [goflyway] را اضافه کنید</value>
+  </data>
   <data name="menuSelectAll" xml:space="preserve">
     <value>انتخاب همه (Ctrl+A)</value>
   </data>

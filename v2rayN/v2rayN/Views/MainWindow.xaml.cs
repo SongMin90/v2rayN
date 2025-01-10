@@ -84,6 +84,7 @@ namespace v2rayN.Views
                 this.BindCommand(ViewModel, vm => vm.AddServerViaClipboardCmd, v => v.menuAddServerViaClipboard).DisposeWith(disposables);
                 this.BindCommand(ViewModel, vm => vm.AddServerViaScanCmd, v => v.menuAddServerViaScan).DisposeWith(disposables);
                 this.BindCommand(ViewModel, vm => vm.AddServerViaImageCmd, v => v.menuAddServerViaImage).DisposeWith(disposables);
+                this.BindCommand(ViewModel, vm => vm.AddGoflywayServerCmd, v => v.menuAddGoflywayServer).DisposeWith(disposables);
 
                 //sub
                 this.BindCommand(ViewModel, vm => vm.SubSettingCmd, v => v.menuSubSetting).DisposeWith(disposables);

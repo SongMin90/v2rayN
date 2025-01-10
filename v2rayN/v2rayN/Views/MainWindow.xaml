@@ -74,6 +74,10 @@
                                     Height="{StaticResource MenuItemHeight}"
                                     Header="{x:Static resx:ResUI.menuAddVmessServer}" />
                                 <MenuItem
+                                    x:Name="menuAddGoflywayServer"
+                                    Height="{StaticResource MenuItemHeight}"
+                                    Header="{x:Static resx:ResUI.menuAddGoflywayServer}" />
+                                <MenuItem
                                     x:Name="menuAddVlessServer"
                                     Height="{StaticResource MenuItemHeight}"
                                     Header="{x:Static resx:ResUI.menuAddVlessServer}" />

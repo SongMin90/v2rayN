@@ -450,6 +450,10 @@ namespace ServiceLib.ViewModels
             {
                 ret = await _updateView?.Invoke(EViewAction.AddServer2Window, item);
             }
+            else if (eConfigType == EConfigType.Goflyway)
+            {
+                ret = await _updateView?.Invoke(EViewAction.AddServerGoflywayWindow, item);
+            }
             else
             {
                 ret = await _updateView?.Invoke(EViewAction.AddServerWindow, item);

@@ -86,6 +86,7 @@ namespace v2rayN.Desktop.Views
                 this.BindCommand(ViewModel, vm => vm.AddServerViaClipboardCmd, v => v.menuAddServerViaClipboard).DisposeWith(disposables);
                 this.BindCommand(ViewModel, vm => vm.AddServerViaScanCmd, v => v.menuAddServerViaScan).DisposeWith(disposables);
                 this.BindCommand(ViewModel, vm => vm.AddServerViaImageCmd, v => v.menuAddServerViaImage).DisposeWith(disposables);
+                this.BindCommand(ViewModel, vm => vm.AddGoflywayServerCmd, v => v.menuAddGoflywayServer).DisposeWith(disposables);
 
                 //sub
                 this.BindCommand(ViewModel, vm => vm.SubSettingCmd, v => v.menuSubSetting).DisposeWith(disposables);
@@ -183,6 +184,10 @@ namespace v2rayN.Desktop.Views
                 case EViewAction.AddServerWindow:
                     if (obj is null) return false;
                     return await new AddServerWindow((ProfileItem)obj).ShowDialog<bool>(this);
+
+                case EViewAction.AddServerGoflywayWindow:
+                    if (obj is null) return false;
+                    return await new AddServerGoflywayWindow((ProfileItem)obj).ShowDialog<bool>(this);
 
                 case EViewAction.AddServer2Window:
                     if (obj is null) return false;

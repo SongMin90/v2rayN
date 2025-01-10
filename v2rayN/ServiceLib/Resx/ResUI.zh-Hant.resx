@@ -547,6 +547,9 @@
   <data name="menuAddVmessServer" xml:space="preserve">
     <value>新增[VMess]伺服器</value>
   </data>
+  <data name="menuAddGoflywayServer" xml:space="preserve">
+    <value>新增[goflyway]伺服器</value>
+  </data>
   <data name="menuSelectAll" xml:space="preserve">
     <value>全選 (Ctrl+A)</value>
   </data>

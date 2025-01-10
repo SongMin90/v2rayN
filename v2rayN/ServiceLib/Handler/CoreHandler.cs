@@ -91,7 +91,7 @@ namespace ServiceLib.Handler
             UpdateFunc(false, configPath);
 
             var coreInfo = CoreInfoHandler.Instance.GetCoreInfo(coreType);
-            var proc = await RunProcess(coreInfo, Global.CoreSpeedtestConfigFileName, true, false);
+            var proc = await RunProcess(coreInfo, Global.CoreSpeedtestConfigFileName, true, false, null);
             if (proc is null)
             {
                 return -1;
@@ -136,7 +136,7 @@ namespace ServiceLib.Handler
             var coreInfo = CoreInfoHandler.Instance.GetCoreInfo(coreType);
 
             var displayLog = node.ConfigType != EConfigType.Custom || node.DisplayLog;
-            var proc = await RunProcess(coreInfo, Global.CoreConfigFileName, displayLog, true);
+            var proc = await RunProcess(coreInfo, Global.CoreConfigFileName, displayLog, true, node);
             if (proc is null)
             {
                 return;
@@ -149,6 +149,10 @@ namespace ServiceLib.Handler
             if (_process != null && !_process.HasExited)
             {
                 var coreType = AppHandler.Instance.GetCoreType(node, node.ConfigType);
+                if (coreType == ECoreType.Goflyway)
+                {
+                    return;
+                }
                 var itemSocks = await ConfigHandler.GetPreSocksItem(_config, node, coreType);
                 if (itemSocks != null)
                 {
@@ -158,7 +162,7 @@ namespace ServiceLib.Handler
                     if (result.Success)
                     {
                         var coreInfo = CoreInfoHandler.Instance.GetCoreInfo(preCoreType);
-                        var proc = await RunProcess(coreInfo, Global.CorePreConfigFileName, true, true);
+                        var proc = await RunProcess(coreInfo, Global.CorePreConfigFileName, true, true, null);
                         if (proc is null)
                         {
                             return;
@@ -187,7 +191,7 @@ namespace ServiceLib.Handler
 
         #region Process
 
-        private async Task<Process?> RunProcess(CoreInfo? coreInfo, string configPath, bool displayLog, bool mayNeedSudo)
+        private async Task<Process?> RunProcess(CoreInfo? coreInfo, string configPath, bool displayLog, bool mayNeedSudo, ProfileItem? node)
         {
             var fileName = CoreInfoHandler.Instance.GetCoreExecFile(coreInfo, out var msg);
             if (Utils.IsNullOrEmpty(fileName))
@@ -203,7 +207,6 @@ namespace ServiceLib.Handler
                     StartInfo = new()
                     {
                         FileName = fileName,
-                        Arguments = string.Format(coreInfo.Arguments, configPath),
                         WorkingDirectory = Utils.GetConfigPath(),
                         UseShellExecute = false,
                         RedirectStandardOutput = displayLog,
@@ -213,6 +216,19 @@ namespace ServiceLib.Handler
                         StandardErrorEncoding = displayLog ? Encoding.UTF8 : null,
                     }
                 };
+
+                // 如果是Goflyway则使用特殊命令行参数
+                if (coreInfo?.CoreType == ECoreType.Goflyway)
+                {
+                    // chinalist.txt就在fileName的同级目录
+                    var chinalistPath = Path.Combine(Path.GetDirectoryName(fileName), "chinalist.txt");
+                    proc.StartInfo.Arguments = $"-up=\"cf://{node.Address}:{node.Port}\" -k=\"{node.Id}\" -l=\":10808\" -acl {chinalistPath}";
+                    // proc.StartInfo.Arguments = $"-up=\"cf://ss.songm.top:2082\" -k=\"password1password1password1\" -l=\":10808\" -acl ./chinalist.txt";
+                }
+                else
+                {
+                    proc.StartInfo.Arguments = string.Format(coreInfo.Arguments, configPath);
+                }
 
                 var isNeedSudo = mayNeedSudo && IsNeedSudo(coreInfo.CoreType);
                 if (isNeedSudo)

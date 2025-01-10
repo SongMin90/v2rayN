@@ -779,7 +779,16 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("menuAddVmessServer", resourceCulture);
             }
         }
-        
+
+        /// <summary>   
+        ///   查找类似 Add [goflyway] server 的本地化字符串。
+        /// </summary>
+        public static string menuAddGoflywayServer {
+            get {
+                return ResourceManager.GetString("menuAddGoflywayServer", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 Add [WireGuard] server 的本地化字符串。
         /// </summary>

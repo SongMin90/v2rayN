@@ -2,6 +2,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Splat;
 using System.Reactive;
+using System.Windows.Input;
 
 namespace ServiceLib.ViewModels
 {
@@ -24,6 +25,7 @@ namespace ServiceLib.ViewModels
         public ReactiveCommand<Unit, Unit> AddServerViaClipboardCmd { get; }
         public ReactiveCommand<Unit, Unit> AddServerViaScanCmd { get; }
         public ReactiveCommand<Unit, Unit> AddServerViaImageCmd { get; }
+        public ReactiveCommand<Unit, Unit> AddGoflywayServerCmd { get; }
 
         //Subscription
         public ReactiveCommand<Unit, Unit> SubSettingCmd { get; }
@@ -124,6 +126,10 @@ namespace ServiceLib.ViewModels
             AddServerViaImageCmd = ReactiveCommand.CreateFromTask(async () =>
             {
                 await AddServerViaImageAsync();
+            });
+            AddGoflywayServerCmd = ReactiveCommand.CreateFromTask(async () =>
+            {
+                await AddServerAsync(true, EConfigType.Goflyway);
             });
 
             //Subscription
@@ -365,6 +371,10 @@ namespace ServiceLib.ViewModels
             if (eConfigType == EConfigType.Custom)
             {
                 ret = await _updateView?.Invoke(EViewAction.AddServer2Window, item);
+            }
+            else if (eConfigType == EConfigType.Goflyway)
+            {
+                ret = await _updateView?.Invoke(EViewAction.AddServerGoflywayWindow, item);
             }
             else
             {

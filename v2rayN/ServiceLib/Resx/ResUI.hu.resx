@@ -547,6 +547,9 @@
   <data name="menuAddVmessServer" xml:space="preserve">
     <value>[VMess] szerver hozzáadása</value>
   </data>
+  <data name="menuAddGoflywayServer" xml:space="preserve">
+    <value>[goflyway] szerver hozzáadása</value>
+  </data>
   <data name="menuSelectAll" xml:space="preserve">
     <value>Mindet kijelölni (Ctrl+A)</value>
   </data>

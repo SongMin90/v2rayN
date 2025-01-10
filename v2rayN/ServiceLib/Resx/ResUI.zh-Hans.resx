@@ -329,7 +329,7 @@
     <value>请填写Url</value>
   </data>
   <data name="AddBatchRoutingRulesYesNo" xml:space="preserve">
-    <value>是否追加规则？选择“是”则追加，选择“否”则全部替换。</value>
+    <value>是否追加规则？选择"是"则追加，选择"否"则全部替换。</value>
   </data>
   <data name="MsgDownloadGeoFileSuccessfully" xml:space="preserve">
     <value>下载 GeoFile：{0} 成功</value>
@@ -546,6 +546,9 @@
   </data>
   <data name="menuAddVmessServer" xml:space="preserve">
     <value>添加[VMess]服务器</value>
+  </data>
+  <data name="menuAddGoflywayServer" xml:space="preserve">
+    <value>添加 [Goflyway] 服务器</value>
   </data>
   <data name="menuSelectAll" xml:space="preserve">
     <value>全选 (Ctrl+A)</value>
@@ -795,9 +798,6 @@
   </data>
   <data name="TbNotChangeSystemProxy" xml:space="preserve">
     <value>不改变系统代理</value>
-  </data>
-  <data name="TbReset" xml:space="preserve">
-    <value>重置</value>
   </data>
   <data name="TbSetSystemProxy" xml:space="preserve">
     <value>自动配置系统代理</value>

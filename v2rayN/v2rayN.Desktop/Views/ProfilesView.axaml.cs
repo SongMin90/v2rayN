@@ -143,6 +143,10 @@ namespace v2rayN.Desktop.Views
                     if (obj is null) return false;
                     return await new AddServerWindow((ProfileItem)obj).ShowDialog<bool>(_window);
 
+                case EViewAction.AddServerGoflywayWindow:
+                    if (obj is null) return false;
+                    return await new AddServerGoflywayWindow((ProfileItem)obj).ShowDialog<bool>(_window);
+
                 case EViewAction.AddServer2Window:
                     if (obj is null) return false;
                     return await new AddServer2Window((ProfileItem)obj).ShowDialog<bool>(_window);

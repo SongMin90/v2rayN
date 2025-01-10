@@ -165,7 +165,8 @@
             {EConfigType.Trojan,"trojan://"},
             {EConfigType.Hysteria2,"hysteria2://"},
             {EConfigType.TUIC,"tuic://"},
-            {EConfigType.WireGuard,"wireguard://"}
+            {EConfigType.WireGuard,"wireguard://"},
+            {EConfigType.Goflyway,"goflyway://"}
         };
 
         public static readonly Dictionary<EConfigType, string> ProtocolTypes = new()
@@ -178,7 +179,8 @@
             {EConfigType.Trojan,"trojan"},
             {EConfigType.Hysteria2,"hysteria2"},
             {EConfigType.TUIC,"tuic"},
-            {EConfigType.WireGuard,"wireguard"}
+            {EConfigType.WireGuard,"wireguard"},
+            {EConfigType.Goflyway,"goflyway"}
         };
 
         public static readonly List<string> VmessSecurities = new() { "aes-128-gcm", "chacha20-poly1305", "auto", "none", "zero" };

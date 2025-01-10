@@ -18,6 +18,7 @@
                     EConfigType.Hysteria2 => Hysteria2Fmt.ToUri(item),
                     EConfigType.TUIC => TuicFmt.ToUri(item),
                     EConfigType.WireGuard => WireguardFmt.ToUri(item),
+                    EConfigType.Goflyway => GoflywayFmt.ToUri(item),
                     _ => null,
                 };
 
@@ -74,6 +75,10 @@
                 else if (str.StartsWith(Global.ProtocolShares[EConfigType.WireGuard]))
                 {
                     return WireguardFmt.Resolve(str, out msg);
+                }
+                else if (str.StartsWith(Global.ProtocolShares[EConfigType.Goflyway]))
+                {
+                    return GoflywayFmt.Resolve(str, out msg);
                 }
                 else
                 {

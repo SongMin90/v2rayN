@@ -259,6 +259,7 @@ namespace ServiceLib.Handler
                 EConfigType.Hysteria2 => await AddHysteria2Server(config, item),
                 EConfigType.TUIC => await AddTuicServer(config, item),
                 EConfigType.WireGuard => await AddWireguardServer(config, item),
+                EConfigType.Goflyway => await AddGoflywayServer(config, item),
                 _ => -1,
             };
             return ret;
@@ -743,6 +744,13 @@ namespace ServiceLib.Handler
 
             await AddServerCommon(config, profileItem, toFile);
 
+            return 0;
+        }
+
+        public static async Task<int> AddGoflywayServer(Config config, ProfileItem profileItem, bool toFile = true)
+        {
+            profileItem.ConfigType = EConfigType.Goflyway;
+            await AddServerCommon(config, profileItem, toFile);
             return 0;
         }
 

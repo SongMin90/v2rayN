@@ -547,6 +547,9 @@
   <data name="menuAddVmessServer" xml:space="preserve">
     <value>Добавить сервер [VMess]</value>
   </data>
+  <data name="menuAddGoflywayServer" xml:space="preserve">
+    <value>Добавить сервер [goflyway]</value>
+  </data>
   <data name="menuSelectAll" xml:space="preserve">
     <value>Выбрать все (Ctrl+A)</value>
   </data>

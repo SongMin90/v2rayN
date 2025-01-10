@@ -190,6 +190,14 @@
                 ReleaseApiUrl = Global.HysteriaCoreUrl.Replace(Global.GithubUrl, Global.GithubApiUrl),
                 RedirectInfo = true,
             });
+
+            _coreInfo.Add(new CoreInfo
+            {
+                CoreType = ECoreType.Goflyway,
+                CoreExes = new List<string> { "goflyway" },
+                Arguments = "",
+                RedirectInfo = true,
+            });
         }
 
         private string PortableMode()

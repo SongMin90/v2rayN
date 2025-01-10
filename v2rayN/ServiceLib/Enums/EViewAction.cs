@@ -24,6 +24,7 @@
         RoutingRuleSettingWindow,
         RoutingRuleDetailsWindow,
         AddServerWindow,
+        AddServerGoflywayWindow,
         AddServer2Window,
         DNSSettingWindow,
         RoutingSettingWindow,

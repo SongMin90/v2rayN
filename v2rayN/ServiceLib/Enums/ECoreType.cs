@@ -12,6 +12,7 @@
         sing_box = 24,
         juicity = 25,
         hysteria2 = 26,
-        v2rayN = 99
+        v2rayN = 99,
+        Goflyway = 100
     }
 }
