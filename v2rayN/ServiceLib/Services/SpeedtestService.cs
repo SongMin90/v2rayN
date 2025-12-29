@@ -237,7 +237,9 @@ namespace ServiceLib.Services
             var url = _config.SpeedTestItem.SpeedTestUrl;
             var timeout = _config.SpeedTestItem.SpeedTestTimeout;
 
-            DownloadService downloadHandle = new();
+            // Limit concurrency to 5 to avoid bandwidth saturation
+            using var semaphore = new SemaphoreSlim(5);
+            var tasks = new List<Task>();
 
             foreach (var it in selecteds)
             {
@@ -254,29 +256,41 @@ namespace ServiceLib.Services
                 {
                     continue;
                 }
-                //if (it.delay < 0)
-                //{
-                //    UpdateFunc(it.indexId, "", ResUI.SpeedtestingSkip);
-                //    continue;
-                //}
-                ProfileExHandler.Instance.SetTestSpeed(it.IndexId, "-1");
-                UpdateFunc(it.IndexId, "", ResUI.Speedtesting);
-
-                var item = await AppHandler.Instance.GetProfileItem(it.IndexId);
-                if (item is null) continue;
-
-                var webProxy = new WebProxy($"socks5://{Global.Loopback}:{it.Port}");
-
-                await downloadHandle.DownloadDataAsync(url, webProxy, timeout, (success, msg) =>
+                
+                tasks.Add(Task.Run(async () => 
                 {
-                    decimal.TryParse(msg, out var dec);
-                    if (dec > 0)
+                    await semaphore.WaitAsync();
+                    try
                     {
-                        ProfileExHandler.Instance.SetTestSpeed(it.IndexId, msg);
+                        if (_exitLoop) return;
+
+                        ProfileExHandler.Instance.SetTestSpeed(it.IndexId, "-1");
+                        UpdateFunc(it.IndexId, "", ResUI.Speedtesting);
+
+                        var item = await AppHandler.Instance.GetProfileItem(it.IndexId);
+                        if (item != null)
+                        {
+                            var webProxy = new WebProxy($"socks5://{Global.Loopback}:{it.Port}");
+                            var downloadHandle = new DownloadService();
+                            await downloadHandle.DownloadDataAsync(url, webProxy, timeout, (success, msg) =>
+                            {
+                                decimal.TryParse(msg, out var dec);
+                                if (dec > 0)
+                                {
+                                    ProfileExHandler.Instance.SetTestSpeed(it.IndexId, msg);
+                                }
+                                UpdateFunc(it.IndexId, "", msg);
+                            });
+                        }
                     }
-                    UpdateFunc(it.IndexId, "", msg);
-                });
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                }));
             }
+            
+            await Task.WhenAll(tasks);
 
             if (pid > 0)
             {

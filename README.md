@@ -4,7 +4,7 @@ v2rayN 是一个基于 .NET 的 V2Ray GUI 客户端，支持 Windows、Linux 和
 
 ## 功能特点
 
-- **多协议支持**：支持 VMess, VLESS, Shadowsocks, Socks, Trojan, Hysteria2, Tuic, WireGuard，Goflyway 等多种协议。
+- **多协议支持**：支持 VMess, VLESS, Shadowsocks, Socks, Trojan, Hysteria2, Tuic, WireGuard, Goflyway 等多种协议。
 - **订阅管理**：支持多种格式的订阅链接，支持自动更新。
 - **路由规则**：内置强大的路由规则管理，支持自定义规则。
 - **内核管理**：支持 Xray, Sing-box, Clash (Meta/Mihomo) 等多种内核。
