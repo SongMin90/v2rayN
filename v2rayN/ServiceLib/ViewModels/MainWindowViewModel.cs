@@ -2,6 +2,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Splat;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Windows.Input;
 
 namespace ServiceLib.ViewModels
@@ -51,6 +52,8 @@ namespace ServiceLib.ViewModels
         public ReactiveCommand<Unit, Unit> RegionalPresetRussiaCmd { get; }
 
         public ReactiveCommand<Unit, Unit> RegionalPresetIranCmd { get; }
+
+        public ReactiveCommand<Unit, Unit> RunAutoMaintenanceCmd { get; }
 
         public ReactiveCommand<Unit, Unit> ReloadCmd { get; }
 
@@ -208,6 +211,11 @@ namespace ServiceLib.ViewModels
                 await ApplyRegionalPreset(EPresetType.Iran);
             });
 
+            RunAutoMaintenanceCmd = ReactiveCommand.CreateFromTask(async () =>
+            {
+                await RunAutoMaintenanceJob();
+            });
+
             #endregion WhenAnyValue && ReactiveCommand
 
             Init();
@@ -231,6 +239,62 @@ namespace ServiceLib.ViewModels
             await Reload();
             await AutoHideStartup();
             Locator.Current.GetService<StatusBarViewModel>()?.RefreshRoutingsMenu();
+            InitAutoMaintenanceTimer();
+        }
+
+        private System.Timers.Timer? _maintenanceTimer;
+
+        private void InitAutoMaintenanceTimer()
+        {
+            ScheduleNextMaintenance();
+        }
+
+        private void ScheduleNextMaintenance()
+        {
+            var now = DateTime.Now;
+            var target = now.Date.AddHours(6);
+            if (now >= target)
+            {
+                target = target.AddDays(1);
+            }
+            var interval = (target - now).TotalMilliseconds;
+
+            if (_maintenanceTimer == null)
+            {
+                _maintenanceTimer = new System.Timers.Timer(interval);
+                _maintenanceTimer.AutoReset = false; // 只运行一次，然后在回调中重新调度
+                _maintenanceTimer.Elapsed += async (s, e) =>
+                {
+                    await RunAutoMaintenanceJob();
+                    ScheduleNextMaintenance(); // 重新计算并调度下一次
+                };
+                _maintenanceTimer.Start();
+            }
+            else
+            {
+                _maintenanceTimer.Interval = interval;
+                _maintenanceTimer.Start();
+            }
+        }
+
+        private async Task RunAutoMaintenanceJob()
+        {
+            var progressVM = new ProgressViewModel();
+            _updateView?.Invoke(EViewAction.DispatcherShowProgress, progressVM);
+            
+            try 
+            {
+                var service = new AutoMaintenanceService();
+                await service.RunJobAsync((msg) =>
+                {
+                     RxApp.MainThreadScheduler.Schedule(() => progressVM.UpdateMessage(msg));
+                });
+                RefreshServers();
+            }
+            finally 
+            {
+                 _updateView?.Invoke(EViewAction.DispatcherCloseProgress, null);
+            }
         }
 
         #endregion Init

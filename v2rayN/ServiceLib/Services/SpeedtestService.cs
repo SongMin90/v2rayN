@@ -64,8 +64,10 @@ namespace ServiceLib.Services
 
             MessageBus.Current.Listen<string>(EMsgCommand.StopSpeedtest.ToString()).Subscribe(ExitLoop);
 
-            Task.Run(async () => { await RunAsync(actionType, lstSelected); });
+            ExecuteTask = Task.Run(async () => { await RunAsync(actionType, lstSelected); });
         }
+
+        public Task ExecuteTask { get; private set; }
 
         private async Task RunAsync(ESpeedActionType actionType, List<ServerTestItem> lstSelected)
         {

@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
@@ -94,6 +94,7 @@ namespace v2rayN.Desktop.Views
                 this.BindCommand(ViewModel, vm => vm.SubUpdateViaProxyCmd, v => v.menuSubUpdateViaProxy).DisposeWith(disposables);
                 this.BindCommand(ViewModel, vm => vm.SubGroupUpdateCmd, v => v.menuSubGroupUpdate).DisposeWith(disposables);
                 this.BindCommand(ViewModel, vm => vm.SubGroupUpdateViaProxyCmd, v => v.menuSubGroupUpdateViaProxy).DisposeWith(disposables);
+                this.BindCommand(ViewModel, vm => vm.RunAutoMaintenanceCmd, v => v.menuRunAutoMaintenance).DisposeWith(disposables);
 
                 //setting
                 this.BindCommand(ViewModel, vm => vm.OptionSettingCmd, v => v.menuOptionSetting).DisposeWith(disposables);
@@ -255,6 +256,19 @@ namespace v2rayN.Desktop.Views
                 case EViewAction.AdjustMainLvColWidth:
                     Dispatcher.UIThread.Post(() =>
                        Locator.Current.GetService<ProfilesViewModel>()?.AutofitColumnWidthAsync(),
+                        DispatcherPriority.Default);
+                    break;
+
+                case EViewAction.DispatcherShowProgress:
+                    if (obj is null) return false;
+                    Dispatcher.UIThread.Post(() =>
+                        DialogHost.Show(new ProgressView { DataContext = obj }),
+                        DispatcherPriority.Default);
+                    break;
+
+                case EViewAction.DispatcherCloseProgress:
+                    Dispatcher.UIThread.Post(() =>
+                        DialogHost.Close(null),
                         DispatcherPriority.Default);
                     break;
             }

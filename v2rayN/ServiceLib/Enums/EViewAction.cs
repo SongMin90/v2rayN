@@ -1,4 +1,4 @@
-﻿namespace ServiceLib.Enums
+namespace ServiceLib.Enums
 {
     public enum EViewAction
     {
@@ -43,5 +43,7 @@
         DispatcherCheckUpdate,
         DispatcherCheckUpdateFinished,
         DispatcherShowMsg,
+        DispatcherShowProgress,
+        DispatcherCloseProgress,
     }
 }

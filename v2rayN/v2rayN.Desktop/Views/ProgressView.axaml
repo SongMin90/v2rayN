@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vms="clr-namespace:ServiceLib.ViewModels;assembly=ServiceLib"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+             x:DataType="vms:ProgressViewModel"
+             x:Class="v2rayN.Desktop.Views.ProgressView">
+    <Border Padding="20" Width="400" Background="{DynamicResource SolidBackgroundFillColorBase}">
+        <StackPanel Spacing="20">
+            <TextBlock Text="Executing Auto Maintenance..." FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <ProgressBar IsIndeterminate="True" Height="4"/>
+            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+        </StackPanel>
+    </Border>
+</UserControl>
